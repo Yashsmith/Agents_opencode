@@ -1,0 +1,1697 @@
+https://github.com/obra/superpowers.git 
+https://github.com/polip/opencode-skills.git
+https://github.com/osmontero/opencode-skills.git
+https://github.com/affaan-m/ECC.git
+https://github.com/jakezp/everything-opencode.git
+https://github.com/param087/agent-ml-skills.git
+
+
+                    ┌─────────────────────┐
+                    │   backend-lead      │
+                    │   PRIMARY AGENT      │
+                    └──────────┬──────────┘
+                               │
+              ┌────────────────┼────────────────┐
+              ↓                ↓                ↓
+         architect          planner          explorer
+              │                │
+              └────────┬───────┘
+                       ↓
+                 implementation
+                       │
+        ┌──────────────┼──────────────┐
+        ↓              ↓              ↓
+    database       security       performance
+     reviewer       reviewer        engineer
+        │              │              │
+        └──────────────┼──────────────┘
+                       ↓
+                    testing
+                       │
+              ┌────────┼────────┐
+              ↓        ↓        ↓
+             unit   integration  contract
+              │        │        │
+              └────────┼────────┘
+                       ↓
+                     SRE
+                       │
+                observability
+                       │
+                 verification
+
+
+
+
+
+
+Yes. I went fairly deep into the current OpenCode ecosystem, not just the usual "install these 5 agents" recommendations.
+
+For your situation, I would **not** install a giant random collection of 200 skills. You are doing backend engineering in a bank, with Kubernetes, APIs, databases, ML/AI, infrastructure, production reliability and likely strict security constraints. The optimal setup is a **backend engineering agent stack** with strong planning, implementation, verification, security, database, performance, SRE, Kubernetes, ML and research capabilities.
+
+One important point first: OpenCode's current architecture supports primary agents, subagents, skills, MCP servers, plugins and granular per-agent permissions. Skills are loaded on demand, so having a fairly large skill library does not necessarily mean stuffing everything into every prompt. ([OpenCode][1])
+
+# My verdict
+
+If I were setting up your UBS OpenCode environment, my stack would be:
+
+| Layer                       | What I'd use                               |
+| --------------------------- | ------------------------------------------ |
+| Core workflow               | **Superpowers**                            |
+| OpenCode specific ecosystem | **Everything Claude Code OpenCode subset** |
+| Backend skills              | **polip/farmage opencode-skills**          |
+| ML/MLOps                    | **agent-ml-skills**                        |
+| Specialist agents           | **Custom UBS backend agent suite**         |
+| Architecture                | Architect + planner + skeptic              |
+| Coding                      | Backend implementer                        |
+| Testing                     | TDD + test master + verification           |
+| Security                    | Security reviewer + secure coding          |
+| Database                    | Database reviewer + Postgres               |
+| Performance                 | Performance optimizer + profiling          |
+| Kubernetes                  | Kubernetes specialist                      |
+| Terraform                   | Terraform engineer                         |
+| Production                  | SRE + monitoring + chaos                   |
+| Research                    | Docs/research agent + Context7             |
+| Code search                 | Grep.app MCP                               |
+| Diagrams                    | Architecture/diagram skill                 |
+| ML                          | ML pipeline + model evaluation + MLOps     |
+| Final gate                  | Independent reviewer + security + tests    |
+
+And importantly:
+
+**I would NOT install frontend, React, Next.js, UX, accessibility, browser automation or UI agents.**
+
+---
+
+# 1. The first thing I'd install: Superpowers
+
+[Superpowers GitHub repository](https://github.com/obra/superpowers?utm_source=chatgpt.com)
+
+This is probably the single most valuable addition.
+
+It is not really "one agent". It is a **software development methodology implemented as composable skills**.
+
+It supports OpenCode directly. ([GitHub][2])
+
+The workflow is essentially:
+
+```text
+Requirement
+    ↓
+Brainstorm
+    ↓
+Design
+    ↓
+Implementation plan
+    ↓
+TDD
+    ↓
+Subagent implementation
+    ↓
+Review
+    ↓
+Verification
+    ↓
+Completion
+```
+
+That is exactly what I want for production backend work.
+
+Particularly useful:
+
+```text
+brainstorming
+writing-plans
+executing-plans
+test-driven-development
+subagent-driven-development
+systematic-debugging
+requesting-code-review
+receiving-code-review
+verifying-before-completion
+using-git-worktrees
+```
+
+The important philosophy is:
+
+> don't let the agent immediately start coding.
+
+It forces specification, planning, implementation and verification into separate stages.
+
+For a bank environment, that's a **feature**, not overhead.
+
+---
+
+# 2. The biggest OpenCode specific collection: opencode-skills
+
+There are two repositories here that caught my attention.
+
+### polip/farmage opencode-skills
+
+[OpenCode Skills repository](https://github.com/polip/opencode-skills?utm_source=chatgpt.com)
+
+This one has **66 specialized skills** covering languages, frameworks, infrastructure, architecture, quality, security, DevOps and ML. ([GitHub][3])
+
+The backend relevant subset is excellent.
+
+### Languages
+
+You should care about:
+
+```text
+Python
+Go
+SQL
+Java
+Rust
+C++
+TypeScript
+```
+
+Even if your primary language is Python, Go is particularly useful for Kubernetes and infrastructure work.
+
+### Backend
+
+```text
+FastAPI
+Django
+Spring Boot
+NestJS
+REST API
+GraphQL
+Microservices
+Postgres
+SQL
+```
+
+### Infrastructure
+
+This is where it becomes very relevant to your UBS work:
+
+```text
+Kubernetes
+Terraform
+Docker/CI
+Cloud Architecture
+SRE
+Monitoring
+Chaos Engineering
+```
+
+### Quality
+
+```text
+Testing
+Debugging
+Code Review
+Security Review
+API Design
+Documentation
+```
+
+### ML
+
+```text
+Pandas
+Spark
+ML Pipeline
+RAG
+Fine-tuning
+Prompt Engineering
+```
+
+The repository even explicitly recommends combinations such as:
+
+```text
+Platform Engineering
+
+DevOps
++
+Kubernetes
++
+Terraform
++
+Monitoring
++
+SRE
+```
+
+and:
+
+```text
+Data/ML Pipeline
+
+Pandas
++
+Spark
++
+ML Pipeline
++
+Monitoring
+```
+
+([GitHub][4])
+
+**This is probably the best broad skill library for your use case.**
+
+---
+
+# 3. Another very good collection: osmontero/opencode-skills
+
+[osmontero OpenCode Skills](https://github.com/osmontero/opencode-skills?utm_source=chatgpt.com)
+
+This one is smaller, but I actually like parts of its philosophy more.
+
+It has dedicated engineering rigor skills around:
+
+```text
+security
+API/schema evolution
+performance investigation
+testing
+debugging
+TDD
+verification
+subagent-driven-development
+```
+
+And specialist agents including:
+
+```text
+implementer
+spec-reviewer
+code-quality-reviewer
+code-reviewer
+security-reviewer
+grader
+internet-researcher
+```
+
+([GitHub][5])
+
+The particularly interesting ones are:
+
+### `reviewing-security`
+
+It doesn't simply say:
+
+> "There might be an SQL injection."
+
+It wants the agent to trace:
+
+```text
+attacker input
+      ↓
+data flow
+      ↓
+sink
+      ↓
+exploitability
+      ↓
+impact
+```
+
+That's much more useful for serious backend security review.
+
+### `evolving-apis-and-schemas`
+
+This is extremely relevant for enterprise systems.
+
+It focuses on:
+
+```text
+expand
+↓
+migrate
+↓
+contract
+```
+
+rather than:
+
+```text
+change DB
+↓
+hope nothing breaks
+```
+
+That's the sort of discipline you want when backend APIs and schemas have multiple consumers.
+
+### `investigating-performance`
+
+Also excellent.
+
+It forces:
+
+```text
+measure
+↓
+identify bottleneck
+↓
+profile
+↓
+optimize
+↓
+measure again
+```
+
+rather than allowing the LLM to invent performance improvements.
+
+---
+
+# 4. Everything Claude Code
+
+This one is worth stealing ideas from even though the name says Claude.
+
+[Everything Claude Code](https://github.com/affaan-m/everything-claude-code?utm_source=chatgpt.com)
+
+It now has explicit OpenCode support.
+
+The current OpenCode integration provides agents, commands, skills, hooks and custom tools. ([GitHub][6])
+
+The interesting part isn't the raw quantity.
+
+It's the engineering workflow.
+
+Relevant agents include:
+
+```text
+planner
+architect
+code-reviewer
+security-reviewer
+build-error-resolver
+database-reviewer
+tdd-guide
+e2e-runner
+refactor-cleaner
+docs-lookup
+```
+
+And the system has things like:
+
+```text
+research-first development
+verification loops
+memory persistence
+continuous learning
+subagent orchestration
+parallelization
+security scanning
+```
+
+([GitHub][6])
+
+For you, I would **not blindly install the whole thing**.
+
+I'd selectively take:
+
+```text
+architect
+planner
+code-reviewer
+security-reviewer
+database-reviewer
+tdd-guide
+build-error-resolver
+refactor-cleaner
+docs-lookup
+```
+
+and the backend relevant skills.
+
+---
+
+# 5. Everything OpenCode
+
+[everything-opencode](https://github.com/jakezp/everything-opencode?utm_source=chatgpt.com)
+
+This is another interesting OpenCode specific collection.
+
+It has 16 agents including:
+
+```text
+orchestrator
+planner
+architect
+code-reviewer
+tdd-guide
+security-reviewer
+build-error-resolver
+e2e-runner
+refactor-cleaner
+database-reviewer
+go-reviewer
+go-build-resolver
+```
+
+([GitHub][7])
+
+The `orchestrator` is particularly interesting because your workload can become:
+
+```text
+                 Orchestrator
+                       │
+       ┌───────────────┼───────────────┐
+       ↓               ↓               ↓
+   Architect        Database        Security
+       │               │               │
+       ↓               ↓               ↓
+   Implementer       Tests          Review
+       │               │               │
+       └───────────────┼───────────────┘
+                       ↓
+                 Verification
+```
+
+This is much closer to how I would want an AI coding system operating on serious backend systems.
+
+---
+
+# 6. ML: definitely install agent-ml-skills
+
+This one is particularly relevant because you're an AI engineer, not simply a backend developer.
+
+[agent-ml-skills](https://github.com/param087/agent-ml-skills?utm_source=chatgpt.com)
+
+This is explicitly designed for coding agents including OpenCode.
+
+The useful categories include:
+
+```text
+model evaluation
+hyperparameter tuning
+LLM fine-tuning
+RAG
+experiment tracking
+reproducible ML
+ML debugging
+model serving
+```
+
+([GitHub][8])
+
+I'd specifically want:
+
+```text
+model-evaluation
+hyperparameter-tuning
+experiment-tracking
+reproducible-ml
+ml-debugging
+model-serving
+rag-pipeline
+llm-finetuning
+```
+
+For production ML this gives you a much better agent workflow:
+
+```text
+data
+ ↓
+validation
+ ↓
+feature engineering
+ ↓
+training
+ ↓
+evaluation
+ ↓
+reproducibility
+ ↓
+registry
+ ↓
+deployment
+ ↓
+monitoring
+ ↓
+drift
+```
+
+rather than:
+
+```text
+train model
+↓
+accuracy = 92%
+↓
+done
+```
+
+---
+
+# 7. The agent architecture I would actually build
+
+This is where I think you can do better than simply downloading existing agents.
+
+I would create your own **UBS Backend Agent Team**.
+
+Something like:
+
+```text
+                    ┌─────────────────────┐
+                    │   backend-lead      │
+                    │   PRIMARY AGENT      │
+                    └──────────┬──────────┘
+                               │
+              ┌────────────────┼────────────────┐
+              ↓                ↓                ↓
+         architect          planner          explorer
+              │                │
+              └────────┬───────┘
+                       ↓
+                 implementation
+                       │
+        ┌──────────────┼──────────────┐
+        ↓              ↓              ↓
+    database       security       performance
+     reviewer       reviewer        engineer
+        │              │              │
+        └──────────────┼──────────────┘
+                       ↓
+                    testing
+                       │
+              ┌────────┼────────┐
+              ↓        ↓        ↓
+             unit   integration  contract
+              │        │        │
+              └────────┼────────┘
+                       ↓
+                     SRE
+                       │
+                observability
+                       │
+                 verification
+```
+
+That is what I would optimize for.
+
+---
+
+# 8. Agents I think you should have
+
+## Tier 1: absolutely essential
+
+### `architect`
+
+Responsibilities:
+
+```text
+system architecture
+distributed systems
+scalability
+failure modes
+tradeoffs
+API boundaries
+data flow
+deployment architecture
+ADR generation
+```
+
+This should be **read only**.
+
+It should never modify your repository.
+
+---
+
+### `planner`
+
+Turns:
+
+```text
+"add authentication"
+```
+
+into:
+
+```text
+requirements
+dependencies
+affected services
+database changes
+API changes
+security implications
+test plan
+deployment plan
+rollback plan
+observability
+implementation sequence
+```
+
+Also read only.
+
+---
+
+### `backend-implementer`
+
+This is your main coding subagent.
+
+Should handle:
+
+```text
+Python
+Go
+Java
+REST
+gRPC
+async processing
+workers
+queues
+caching
+database
+authentication
+authorization
+services
+CLI
+```
+
+---
+
+### `code-reviewer`
+
+Read only.
+
+Should aggressively inspect:
+
+```text
+bugs
+race conditions
+error handling
+complexity
+maintainability
+API correctness
+resource leaks
+logging
+observability
+```
+
+---
+
+### `security-reviewer`
+
+This is **mandatory** for UBS work.
+
+Should inspect:
+
+```text
+authentication
+authorization
+RBAC
+ABAC
+input validation
+SQL injection
+command injection
+SSRF
+path traversal
+deserialization
+secrets
+crypto
+TLS
+JWT
+OAuth
+dependency vulnerabilities
+logging of sensitive data
+PII exposure
+audit trails
+```
+
+---
+
+### `database-reviewer`
+
+Should specialize in:
+
+```text
+PostgreSQL
+indexes
+query plans
+transactions
+locking
+deadlocks
+isolation
+migrations
+schema evolution
+replication
+connection pools
+partitioning
+data integrity
+```
+
+---
+
+### `test-engineer`
+
+Not simply "write tests".
+
+It should reason about:
+
+```text
+unit tests
+integration tests
+contract tests
+property-based tests
+mutation tests
+failure tests
+concurrency tests
+load tests
+regression tests
+```
+
+---
+
+### `performance-engineer`
+
+Should never accept:
+
+> "This should be faster."
+
+It should demand:
+
+```text
+baseline
+measurement
+profile
+bottleneck
+change
+benchmark
+comparison
+```
+
+---
+
+# 9. Infrastructure agents
+
+I'd add:
+
+### `kubernetes-engineer`
+
+Specialize in:
+
+```text
+Deployments
+StatefulSets
+Jobs
+CronJobs
+Services
+Ingress
+Gateway API
+ConfigMaps
+Secrets
+RBAC
+NetworkPolicy
+PodDisruptionBudget
+HPA
+VPA
+resource limits
+probes
+scheduling
+topology
+operators
+Helm
+GitOps
+```
+
+---
+
+### `terraform-engineer`
+
+Focus on:
+
+```text
+IaC
+modules
+state
+locking
+drift
+dependencies
+providers
+secrets
+multi-environment
+multi-region
+least privilege
+plan/apply safety
+```
+
+---
+
+### `sre-engineer`
+
+Should think in:
+
+```text
+SLO
+SLI
+error budget
+availability
+latency
+throughput
+capacity
+incident response
+failure domains
+DR
+RTO
+RPO
+backpressure
+graceful degradation
+```
+
+---
+
+### `observability-engineer`
+
+Specialize in:
+
+```text
+logs
+metrics
+traces
+OpenTelemetry
+Prometheus
+Grafana
+alerting
+correlation IDs
+distributed tracing
+RED
+USE
+cardinality
+sampling
+```
+
+---
+
+### `chaos-engineer`
+
+This one is underrated.
+
+Ask it:
+
+> What happens if Redis disappears?
+
+and it should systematically investigate:
+
+```text
+dependency failure
+network partition
+database failure
+pod eviction
+node failure
+region failure
+timeout
+retry storm
+cascading failure
+message duplication
+message loss
+partial deployment
+```
+
+The opencode-skills collection specifically has a Chaos Engineering skill for resilience testing. ([GitHub][4])
+
+---
+
+# 10. ML specific agents
+
+I'd create:
+
+```text
+ml-architect
+ml-engineer
+ml-evaluator
+mlops-engineer
+rag-engineer
+model-serving-engineer
+```
+
+### `ml-architect`
+
+Handles:
+
+```text
+training architecture
+feature pipelines
+model lifecycle
+model registry
+online/offline features
+batch inference
+real-time inference
+drift
+retraining
+```
+
+### `ml-evaluator`
+
+Extremely important.
+
+It should challenge:
+
+```text
+data leakage
+bad splits
+class imbalance
+metric selection
+calibration
+distribution shift
+overfitting
+underfitting
+statistical significance
+baseline comparison
+```
+
+### `mlops-engineer`
+
+Handles:
+
+```text
+MLflow
+model registry
+experiment tracking
+pipelines
+deployment
+monitoring
+reproducibility
+rollback
+model versioning
+```
+
+---
+
+# 11. Research agent
+
+You absolutely want one.
+
+Call it:
+
+```text
+researcher
+```
+
+Its job:
+
+```text
+official documentation
+upstream source
+GitHub implementations
+RFCs
+CNCF docs
+Kubernetes docs
+Python docs
+Postgres docs
+library changelogs
+security advisories
+```
+
+And most importantly:
+
+**research before inventing.**
+
+For example:
+
+> "How should we implement this Kubernetes behavior?"
+
+The agent should first inspect:
+
+```text
+official Kubernetes documentation
+upstream source
+relevant API versions
+known limitations
+```
+
+instead of hallucinating an API.
+
+---
+
+# 12. Context7 MCP
+
+This is one of the MCPs I'd actually consider.
+
+OpenCode's current docs explicitly show Context7 as a supported MCP example for documentation lookup. ([OpenCode][9])
+
+Use it for:
+
+```text
+FastAPI docs
+Kubernetes libraries
+Pydantic
+SQLAlchemy
+Postgres libraries
+LangChain
+MLflow
+PyTorch
+Transformers
+etc.
+```
+
+This matters enormously because libraries change.
+
+---
+
+# 13. Grep.app MCP
+
+Also interesting.
+
+OpenCode documents Grep by Vercel as an MCP that lets the agent search GitHub code examples. ([OpenCode][9])
+
+This is extremely useful for:
+
+```text
+"How do serious projects implement this?"
+
+rather than:
+
+"How does the model think this should work?"
+```
+
+That difference is huge.
+
+---
+
+# 14. Diagrams and visualisation
+
+You specifically mentioned diagrams.
+
+I wouldn't create a giant "diagram agent".
+
+I'd create a:
+
+### `architecture-visualizer`
+
+Its job is to produce:
+
+```text
+Mermaid
+PlantUML
+C4
+sequence diagrams
+state machines
+deployment diagrams
+data flow diagrams
+ER diagrams
+dependency graphs
+```
+
+For example:
+
+```text
+Client
+  │
+  ↓
+API Gateway
+  │
+  ↓
+Backend API
+  │
+  ├────────→ Redis
+  │
+  ├────────→ PostgreSQL
+  │
+  └────────→ Kafka
+                 │
+                 ↓
+             Worker
+                 │
+                 ↓
+             ML Service
+```
+
+And for complex work:
+
+```text
+C4 Context
+     ↓
+Container
+     ↓
+Component
+     ↓
+Sequence
+     ↓
+Deployment
+```
+
+That becomes extremely useful when explaining architecture to senior engineers.
+
+---
+
+# 15. The secret weapon: a Skeptic agent
+
+I would absolutely create one.
+
+Call it:
+
+```text
+skeptic
+```
+
+Its entire job is:
+
+> Assume the proposed solution is wrong.
+
+It asks:
+
+```text
+What assumption are we making?
+
+What happens at 10x scale?
+
+What happens when this dependency fails?
+
+Why do we need this component?
+
+Can this be simpler?
+
+What happens during deployment?
+
+What happens during rollback?
+
+What happens with duplicate messages?
+
+What happens during concurrent requests?
+
+What happens if the database is unavailable?
+
+What happens during a region outage?
+
+What happens if the model produces garbage?
+
+What happens if an attacker controls this input?
+```
+
+There is actually a similar concept in the OpenCode ecosystem. The Nomeon configuration has a `skeptic` agent specifically for challenging unnecessary complexity and applying YAGNI/KISS. ([GitHub][10])
+
+For production engineering, this is extremely valuable.
+
+---
+
+# 16. Don't install everything
+
+This is important.
+
+OpenCode itself warns that MCP servers add model context and that enabling too many tools can rapidly consume context. ([OpenCode][9])
+
+Same principle applies to agents.
+
+You don't want:
+
+```text
+66 skills
++
+40 agents
++
+20 MCPs
++
+100 commands
+```
+
+all active all the time.
+
+You'll create:
+
+```text
+tool noise
+routing ambiguity
+context bloat
+slower decisions
+wrong skill selection
+higher token consumption
+```
+
+There is also emerging research around this exact problem. A recent analysis of 138,133 public `SKILL.md` files found that 91.8% contained at least one detected defect, with weak routing metadata and bloated/non-actionable skill bodies among the dominant problems. ([arXiv][11])
+
+So **more skills ≠ better agent**.
+
+Curated skills > massive skill dump.
+
+---
+
+# 17. My recommended skill set for YOU
+
+If I were pruning the 66 skill repository for your exact work, I'd start with:
+
+### Core
+
+```text
+architecture
+api-design
+microservices
+debugging
+testing
+code-review
+documentation
+```
+
+### Backend
+
+```text
+python
+go
+java
+fastapi
+spring-boot
+sql
+postgres
+```
+
+### Infrastructure
+
+```text
+kubernetes
+terraform
+docker
+cloud-architecture
+devops
+sre
+monitoring
+chaos-engineering
+```
+
+### Security
+
+```text
+security-review
+secure-coding
+threat-modeling
+```
+
+### ML
+
+```text
+pandas
+spark
+ml-pipeline
+rag
+fine-tuning
+model-evaluation
+mlops
+model-serving
+```
+
+### Workflow
+
+```text
+planning
+tdd
+systematic-debugging
+subagent-driven-development
+verification
+git-worktrees
+```
+
+### Performance
+
+```text
+performance
+profiling
+database-optimization
+distributed-systems
+```
+
+That is the **core 35-ish skill universe** I'd want.
+
+Not frontend.
+
+---
+
+# 18. Your ideal agent hierarchy
+
+I'd ultimately structure your OpenCode environment like this:
+
+```text
+                         YOU
+                          │
+                          ↓
+                 ┌─────────────────┐
+                 │  BACKEND LEAD   │
+                 │     PRIMARY     │
+                 └────────┬────────┘
+                          │
+              ┌───────────┼───────────┐
+              ↓           ↓           ↓
+          ARCHITECT     PLANNER     RESEARCHER
+              │           │           │
+              └───────────┼───────────┘
+                          ↓
+                    IMPLEMENTER
+                          │
+        ┌─────────────────┼─────────────────┐
+        ↓                 ↓                 ↓
+    DATABASE          SECURITY         PERFORMANCE
+    REVIEWER          REVIEWER          ENGINEER
+        │                 │                 │
+        └─────────────────┼─────────────────┘
+                          ↓
+                     TEST ENGINEER
+                          │
+             ┌────────────┼────────────┐
+             ↓            ↓            ↓
+           UNIT       INTEGRATION    CONTRACT
+             │            │            │
+             └────────────┼────────────┘
+                          ↓
+                    INFRA REVIEW
+                          │
+               ┌──────────┼──────────┐
+               ↓          ↓          ↓
+              K8S       TERRAFORM    SRE
+               │          │          │
+               └──────────┼──────────┘
+                          ↓
+                    OBSERVABILITY
+                          ↓
+                       SKEPTIC
+                          ↓
+                   FINAL VERIFIER
+```
+
+That is much better than simply:
+
+```text
+@coder
+"build this"
+```
+
+---
+
+# 19. The final verifier is extremely important
+
+I'd create:
+
+```text
+final-verifier
+```
+
+and make it **read only**.
+
+Its prompt should essentially say:
+
+```text
+You are the final production verification authority.
+
+Do not modify files.
+
+Assume the implementation is incorrect until evidence proves otherwise.
+
+Verify:
+
+1. Requirements
+2. Architecture
+3. API contracts
+4. Database correctness
+5. Security
+6. Concurrency
+7. Error handling
+8. Tests
+9. Performance
+10. Observability
+11. Deployment
+12. Rollback
+13. Failure modes
+14. Documentation
+
+Run appropriate verification commands.
+
+Do not accept claims.
+
+Require evidence.
+
+Report:
+PASS
+FAIL
+BLOCKED
+
+For every failure provide:
+file
+location
+severity
+reason
+evidence
+recommended fix.
+```
+
+This is the kind of agent that stops an LLM from saying:
+
+> "Everything looks good."
+
+when it hasn't actually tested anything.
+
+---
+
+# 20. Permissions matter a LOT at UBS
+
+OpenCode supports granular permissions for:
+
+```text
+read
+edit
+bash
+task
+websearch
+webfetch
+lsp
+skill
+external_directory
+```
+
+and these can be configured per agent. ([OpenCode][12])
+
+I would use:
+
+| Agent             |  Edit |    Bash | Task |
+| ----------------- | ----: | ------: | ---: |
+| Architect         |     ❌ |       ❌ |    ✅ |
+| Planner           |     ❌ | limited |    ✅ |
+| Researcher        |     ❌ |       ❌ |    ❌ |
+| Explorer          |     ❌ | limited |    ❌ |
+| Implementer       |     ✅ |       ✅ |    ✅ |
+| Security reviewer |     ❌ | limited |    ❌ |
+| DB reviewer       |     ❌ | limited |    ❌ |
+| Performance       |     ❌ |       ✅ |    ❌ |
+| Test engineer     |     ❌ |       ✅ |    ❌ |
+| Kubernetes        | maybe |       ✅ |    ❌ |
+| Terraform         | maybe |     ask |    ❌ |
+| SRE               |     ❌ |     ask |    ❌ |
+| Final verifier    |     ❌ |       ✅ |    ❌ |
+| Skeptic           |     ❌ |       ❌ |    ❌ |
+
+Especially:
+
+```text
+git push → deny
+production credentials → deny
+.env → ask
+destructive commands → ask
+terraform apply → ask
+kubectl delete → ask
+database destructive operations → ask
+```
+
+OpenCode's permission system supports command pattern matching, so you can make these restrictions quite granular. ([OpenCode][13])
+
+---
+
+# 21. One thing I would NOT do
+
+I wouldn't put your UBS specific knowledge into public third party skills.
+
+For example, don't make:
+
+```text
+~/.config/opencode/skills/ubs-internal/
+```
+
+with:
+
+```text
+internal URLs
+internal architecture
+credentials
+service names
+customer information
+internal API schemas
+internal infrastructure
+```
+
+unless your UBS environment explicitly permits that.
+
+Instead create a **local UBS backend skill** that references whatever internal documentation your environment permits.
+
+Something like:
+
+```text
+ubs-backend-engineering
+```
+
+containing:
+
+```text
+coding standards
+logging standards
+API standards
+error handling
+security requirements
+deployment conventions
+testing conventions
+observability standards
+approved technologies
+```
+
+That could become your most valuable skill.
+
+---
+
+# 22. The stack I'd personally choose
+
+If I were you, I would **not install 10 different competing ecosystems**.
+
+I'd build this:
+
+### Foundation
+
+[Superpowers](https://github.com/obra/superpowers?utm_source=chatgpt.com)
+
+### Skills
+
+[OpenCode Skills 66 skill collection](https://github.com/polip/opencode-skills?utm_source=chatgpt.com)
+
+### Engineering rigor
+
+[osmontero OpenCode Skills](https://github.com/osmontero/opencode-skills?utm_source=chatgpt.com)
+
+### ML
+
+[agent-ml-skills](https://github.com/param087/agent-ml-skills?utm_source=chatgpt.com)
+
+### Selective agents
+
+[Everything Claude Code](https://github.com/affaan-m/everything-claude-code?utm_source=chatgpt.com)
+
+### OpenCode native
+
+Use OpenCode's own:
+
+```text
+build
+plan
+general
+explore
+scout
+```
+
+The built-in `explore` is specifically intended for fast read-only codebase exploration and `scout` for external dependency/documentation research. ([GitHub][14])
+
+### MCP
+
+Start with:
+
+```text
+Context7
+Grep.app
+```
+
+and only add others when you actually need them.
+
+---
+
+# 23. The final setup I'd aim for
+
+Your OpenCode environment should conceptually become:
+
+```text
+.opencode/
+│
+├── agents/
+│   │
+│   ├── backend-lead.md
+│   ├── architect.md
+│   ├── planner.md
+│   ├── implementer.md
+│   ├── researcher.md
+│   ├── skeptic.md
+│   ├── code-reviewer.md
+│   ├── security-reviewer.md
+│   ├── database-reviewer.md
+│   ├── performance-engineer.md
+│   ├── test-engineer.md
+│   ├── kubernetes-engineer.md
+│   ├── terraform-engineer.md
+│   ├── sre-engineer.md
+│   ├── observability-engineer.md
+│   ├── ml-architect.md
+│   ├── ml-engineer.md
+│   ├── ml-evaluator.md
+│   └── final-verifier.md
+│
+├── skills/
+│   │
+│   ├── backend/
+│   ├── api-design/
+│   ├── database/
+│   ├── postgres/
+│   ├── security/
+│   ├── testing/
+│   ├── performance/
+│   ├── kubernetes/
+│   ├── terraform/
+│   ├── sre/
+│   ├── observability/
+│   ├── chaos/
+│   ├── ml/
+│   ├── mlops/
+│   ├── rag/
+│   ├── architecture/
+│   ├── distributed-systems/
+│   ├── debugging/
+│   ├── tdd/
+│   └── ubs-backend/
+│
+└── opencode.json
+```
+
+And the workflow:
+
+```text
+YOU
+ ↓
+backend-lead
+ ↓
+architect + researcher
+ ↓
+planner
+ ↓
+implementer
+ ↓
+tests
+ ↓
+security review
+ ↓
+database review
+ ↓
+performance review
+ ↓
+infra/SRE review
+ ↓
+skeptic
+ ↓
+final-verifier
+ ↓
+YOU
+```
+
+That is the setup I would trust substantially more than just giving one coding model a massive prompt.
+
+One final point: **don't treat third party skills as inherently trustworthy**. Agent skills are executable instruction packages, and current research is finding widespread quality and routing defects across the ecosystem. ([arXiv][11]) In a UBS environment, I would pin versions, inspect `SKILL.md`, inspect scripts/hooks, remove unnecessary network access, and keep production credentials completely outside the agent's reach.
+
+**If your goal is genuinely "the damn best backend OpenCode setup", the next step should not be another list.** I can build you a **complete OpenCode backend engineering pack** with the actual `opencode.json`, 15 to 20 specialist agent definitions, skill selection/routing, permissions, MCP configuration, agent delegation rules, testing gates, security gates, Kubernetes/ML/SRE agents, and a UBS style development workflow so you can drop it into your OpenCode environment and tune it around the Qwen 3 27B model you're using.
+
+[1]: https://opencode.ai/docs/skills/?utm_source=chatgpt.com "Agent Skills | OpenCode"
+[2]: https://github.com/obra/superpowers?utm_source=chatgpt.com "GitHub - obra/superpowers: An agentic skills framework & software development methodology that works. · GitHub"
+[3]: https://github.com/polip/opencode-skills?utm_source=chatgpt.com "GitHub - polip/opencode-skills: 66 specialized AI skills + 9 workflow commands for OpenCode. Based on Claude Skills by jeffallan. · GitHub"
+[4]: https://github.com/farmage/opencode-skills/blob/main/SKILLS_GUIDE.md?utm_source=chatgpt.com "opencode-skills/SKILLS_GUIDE.md at main · farmage/opencode-skills · GitHub"
+[5]: https://github.com/osmontero/opencode-skills?utm_source=chatgpt.com "GitHub - osmontero/opencode-skills: Skills, agents and more for OpenCode · GitHub"
+[6]: https://github.com/fivewillow/affaan-m-everything-claude-code/?utm_source=chatgpt.com "GitHub - fivewillow/affaan-m-everything-claude-code: Complete Claude Code configuration collection - agents, skills, hooks, commands, rules, MCPs. Battle-tested configs from an Anthropic hackathon winner. · GitHub"
+[7]: https://github.com/jakezp/everything-opencode?utm_source=chatgpt.com "GitHub - jakezp/everything-opencode · GitHub"
+[8]: https://github.com/param087/agent-ml-skills?utm_source=chatgpt.com "GitHub - param087/agent-ml-skills: Production-grade Machine Learning, Data Science & MLOps skills for AI coding agents (Codex, Claude Code, Cursor, OpenCode). One npx command to install. · GitHub"
+[9]: https://dev.opencode.ai/docs/mcp-servers/?utm_source=chatgpt.com "MCP servers | OpenCode"
+[10]: https://github.com/Nomeon/opencode?utm_source=chatgpt.com "GitHub - Nomeon/opencode: Opencode config for most workflows · GitHub"
+[11]: https://arxiv.org/abs/2608.08453?utm_source=chatgpt.com "What Keeps Agent Skills from Being Reusable? Evidence from 138K SKILL.md Files"
+[12]: https://opencode.ai/docs/agents?utm_source=chatgpt.com "Agents | OpenCode"
+[13]: https://opencode.ai/docs/permissions?utm_source=chatgpt.com "Permissions | OpenCode"
+[14]: https://github.com/mudrii/opencode-docs/blob/main/docs/06-agents.md?utm_source=chatgpt.com "opencode-docs/docs/06-agents.md at main · mudrii/opencode-docs · GitHub"
